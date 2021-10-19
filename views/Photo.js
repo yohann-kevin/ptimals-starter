@@ -96,7 +96,7 @@ export default function PhotoView(props) {
     );
   } else {
     return (
-      <ResultView img={imgUri} data={clarifaiRes}/>
+      <ResultView img={imgUri} data={clarifaiRes} onReTakePicture={() => setIsPicture(false)}/>
     );
   }
   

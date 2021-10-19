@@ -1,10 +1,14 @@
 import * as React from "react";
-import { View, Text, Image, StyleSheet, SafeAreaView, FlatList } from "react-native";
+import { View, Text, Image, StyleSheet, SafeAreaView, FlatList, Button } from "react-native";
 import { Header } from 'react-native-elements';
 
 export default function ResultView(props) {
   const [imgUri, setImgUri] = React.useState(props.img);
   const [data, setData] = React.useState(props.data);
+
+  function reTakePicture() {
+    props.onReTakePicture();
+  }
 
   return (
     <View style={styles.container}>
@@ -25,6 +29,7 @@ export default function ResultView(props) {
           )}
         />
       </SafeAreaView>
+      <Button title="Retake a picture" onPress={reTakePicture}/>
     </View>
   );
 }
