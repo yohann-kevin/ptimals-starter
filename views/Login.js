@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, StyleSheet, Button, TextInput, SafeAreaView, SegmentedControlIOSBase } from "react-native";
+import { View, Text, StyleSheet, Button, TextInput, SafeAreaView } from "react-native";
 import { Header } from 'react-native-elements';
 
 export default function LoginView(props) {

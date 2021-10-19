@@ -26,7 +26,7 @@ export default function PhotoView(props) {
   }, []);
 
   function sendPictureToClarifai(photo) {
-    console.log(photo.base64);
+    // console.log(photo.base64);
     var data = JSON.stringify({
       "inputs": [
         {
@@ -39,7 +39,7 @@ export default function PhotoView(props) {
       ]
     });
 
-    var config = {
+    let config = {
       method: 'post',
       url: 'https://api.clarifai.com/v2/models/aaa03c23b3724a16a56b629203edc62c/outputs',
       headers: { 
