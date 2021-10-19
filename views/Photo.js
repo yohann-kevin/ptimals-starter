@@ -26,14 +26,13 @@ export default function PhotoView(props) {
   }, []);
 
   function sendPictureToClarifai(photo) {
-    console.log(photo.uri);
+    console.log(photo.base64);
     var data = JSON.stringify({
       "inputs": [
         {
           "data": {
             "image": {
-              // "url": "http://i.imgur.com/XmAr3jV.jpg"
-              "url": photo.uri
+              "base64": photo.base64
             }
           }
         }
@@ -64,7 +63,8 @@ export default function PhotoView(props) {
 
   takePicture = () => {
     if (camera) {
-      camera.takePictureAsync({ onPictureSaved: onPictureSaved });
+      const option = { quality: 0.5, base64: true, skipProcessing: false, onPictureSaved: onPictureSaved };
+      camera.takePictureAsync(option);
     }
   }
   
@@ -85,17 +85,6 @@ export default function PhotoView(props) {
       <View style={styles.container}>
         <Camera style={styles.camera} type={type} ref={(ref) => { setCamera(ref) }}>
           <View style={styles.buttonContainer}>
-            {/* <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                setType(
-                  type === Camera.Constants.Type.back
-                    ? Camera.Constants.Type.front
-                    : Camera.Constants.Type.back
-                );
-              }}>
-              <Text style={styles.text}> Flip </Text>
-            </TouchableOpacity> */}
             <TouchableOpacity
               style={styles.button}
               onPress={takePicture}>
@@ -127,9 +116,11 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   button: {
-    flex: 0.1,
+    flex: 0.5,
     alignSelf: 'flex-end',
     alignItems: 'center',
+    backgroundColor: "#3a5790",
+    height: 30
   },
   text: {
     fontSize: 18,
