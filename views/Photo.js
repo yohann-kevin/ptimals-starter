@@ -6,13 +6,17 @@ import { Camera } from 'expo-camera';
 
 import axios from "axios";
 
+import ResultView from "./components/Result.js";
+
 const API_KEY = "373223ed4e6043319fdfb23b9f57dd72";
 
-export default function PhotoView() {
+export default function PhotoView(props) {
   const [hasPermission, setHasPermission] = React.useState(null);
   const [type, setType] = React.useState(Camera.Constants.Type.back);
   const [camera, setCamera] = React.useState();
   const [imgUri, setImgUri] = React.useState();
+  const [isPicture, setIsPicture] = React.useState(false);
+  const [clarifaiRes, setClarifaiRes] = React.useState(null);
 
   React.useEffect(() => {
     (async () => {
@@ -21,14 +25,15 @@ export default function PhotoView() {
     })();
   }, []);
 
-  function sendPictureToClarifai() {
-    // console.log(photo);
+  function sendPictureToClarifai(photo) {
+    console.log(photo.uri);
     var data = JSON.stringify({
       "inputs": [
         {
           "data": {
             "image": {
-              "url": "http://i.imgur.com/XmAr3jV.jpg"
+              // "url": "http://i.imgur.com/XmAr3jV.jpg"
+              "url": photo.uri
             }
           }
         }
@@ -53,7 +58,8 @@ export default function PhotoView() {
   }
 
   function manageClarifaiResponse(data) {
-    console.log(data.outputs[0].data.concepts[0]);
+    setClarifaiRes(data.outputs[0].data.concepts);
+    setIsPicture(true);
   }
 
   takePicture = () => {
@@ -73,31 +79,38 @@ export default function PhotoView() {
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
-  return (
-    <View style={styles.container}>
-      <Camera style={styles.camera} type={type} ref={(ref) => { setCamera(ref) }}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              setType(
-                type === Camera.Constants.Type.back
-                  ? Camera.Constants.Type.front
-                  : Camera.Constants.Type.back
-              );
-            }}>
-            <Text style={styles.text}> Flip </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={takePicture}>
-            <Text style={styles.text}> Snap </Text>
-          </TouchableOpacity>
-        </View>
-      </Camera>
-      <Image style={styles.image} source={{ uri: imgUri }} />
-    </View>
-  );
+
+  if (!isPicture) {
+    return (
+      <View style={styles.container}>
+        <Camera style={styles.camera} type={type} ref={(ref) => { setCamera(ref) }}>
+          <View style={styles.buttonContainer}>
+            {/* <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                setType(
+                  type === Camera.Constants.Type.back
+                    ? Camera.Constants.Type.front
+                    : Camera.Constants.Type.back
+                );
+              }}>
+              <Text style={styles.text}> Flip </Text>
+            </TouchableOpacity> */}
+            <TouchableOpacity
+              style={styles.button}
+              onPress={takePicture}>
+              <Text style={styles.text}> Snap </Text>
+            </TouchableOpacity>
+          </View>
+        </Camera>
+      </View>
+    );
+  } else {
+    return (
+      <ResultView img={imgUri} data={clarifaiRes}/>
+    );
+  }
+  
 }
 
 const styles = StyleSheet.create({
@@ -122,8 +135,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'white',
   },
+  result: {
+    marginTop: 15,
+    justifyContent: "center"
+  },
   image: {
     width: 300,
-    height: 300
+    height: 300,
+    marginLeft: 50
   }
 });
