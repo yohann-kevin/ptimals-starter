@@ -83,6 +83,11 @@ export default function PhotoView(props) {
   if (!isPicture) {
     return (
       <View style={styles.container}>
+        <Header
+          backgroundColor="#3a5790"
+          placement="center"
+          centerComponent={{ text: 'Take a picture', style: { color: '#fff', fontSize: 20 } }}
+        />
         <Camera style={styles.camera} type={type} ref={(ref) => { setCamera(ref) }}>
           <View style={styles.buttonContainer}>
             <TouchableOpacity

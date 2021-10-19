@@ -12,7 +12,11 @@ export default function ResultView(props) {
 
   return (
     <View style={styles.container}>
-      <Text>Result</Text>
+      <Header
+        backgroundColor="#3a5790"
+        placement="center"
+        centerComponent={{ text: 'Result', style: { color: '#fff', fontSize: 20 } }}
+      />
       <Image style={styles.image} source={{ uri: imgUri }} />
       <SafeAreaView style={styles.container}>
         <FlatList
@@ -37,7 +41,6 @@ export default function ResultView(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop:25
   },
   image: {
     width: 300,

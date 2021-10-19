@@ -7,13 +7,12 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import LoginView from "./views/Login.js";
 
 import HomeView from "./views/Home.js";
-import AboutView from "./views/About.js";
 import PhotoView from "./views/Photo.js";
 
 const Tab = createMaterialBottomTabNavigator();
 
 export default function App() {
-  const [userConnected, setUserConnected] = React.useState(false);
+  const [userConnected, setUserConnected] = React.useState(true);
 
   function login() {
     setUserConnected(true);

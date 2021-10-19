@@ -5,7 +5,11 @@ import { Header } from 'react-native-elements';
 export default function HomeView() {
   return (
     <View style={{ flex: 1, alignItems: 'center'}}>
-      <Text>Home</Text>
+      <Header
+          backgroundColor="#3a5790"
+          placement="center"
+          centerComponent={{ text: 'Home', style: { color: '#fff', fontSize: 20 } }}
+        />
     </View>
   );
 }
