@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, Button, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
 import { Header } from 'react-native-elements';
 
 import { Camera } from 'expo-camera';
@@ -26,8 +26,7 @@ export default function PhotoView(props) {
   }, []);
 
   function sendPictureToClarifai(photo) {
-    // console.log(photo.base64);
-    var data = JSON.stringify({
+    let data = JSON.stringify({
       "inputs": [
         {
           "data": {
@@ -63,7 +62,7 @@ export default function PhotoView(props) {
 
   takePicture = () => {
     if (camera) {
-      const option = { quality: 0.5, base64: true, skipProcessing: false, onPictureSaved: onPictureSaved };
+      const option = { quality: 0.1, base64: true, skipProcessing: false, onPictureSaved: onPictureSaved };
       camera.takePictureAsync(option);
     }
   }
@@ -88,7 +87,7 @@ export default function PhotoView(props) {
           placement="center"
           centerComponent={{ text: 'Take a picture', style: { color: '#fff', fontSize: 20 } }}
         />
-        <Camera style={styles.camera} type={type} ref={(ref) => { setCamera(ref) }}>
+        <Camera style={styles.camera} type={type} ratio="1:1" ref={(ref) => { setCamera(ref) }}>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.button}
